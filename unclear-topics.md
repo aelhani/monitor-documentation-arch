@@ -1,0 +1,2 @@
+- Should I include Linting&Formatting among CI Steps?
+- External DB or Stateful managed DB?
