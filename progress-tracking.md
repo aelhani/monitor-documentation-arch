@@ -14,7 +14,7 @@ This document tracks the development progress of the Monitoring project, compris
 | Core Backend: Data Processing     | 0.05        | 0            | 0.0                   | Not started. |
 | Core Backend: Visualization       | 0.1         | 0            | 0.0                   | Not started. |
 | Core Backend: Alerts              | 0.05        | 0            | 0.0                   | Not started. |
-| Frontend: User Dashboard          | 0.1         | 0            | 0.0                   | Not started. |
+| Frontend: User Dashboard          | 0.1         | 40           | 4.0                   | Implemented basic login with Firebase auth and backend response; session persistence pending. |
 | Frontend: Admin Panel             | 0.1         | 0            | 0.0                   | Not started. |
 | Frontend: Live Display            | 0.05        | 0            | 0.0                   | Not started. |
 | Frontend: Shared Components       | 0.05        | 0            | 0.0                   | Not started. |
@@ -22,7 +22,7 @@ This document tracks the development progress of the Monitoring project, compris
 | Supporting: Notifications & Logging| 0.05        | 0            | 0.0                   | `monitoringbot` partial setup, full service pending. |
 | DevOps: GKE (Infra Config)        | 0.05        | 10           | 0.5                   | MongoDB YAML complete, app deployment YAML pending. |
 
-**Total Progress**: 8.5% (as of April 28, 2025)
+**Total Progress**: 12.5% (as of May 26, 2025)
 
 **Calculation**: Weighted Progress = Coefficient × Progress / 100. Sum all Weighted Progress values.
 
@@ -47,6 +47,7 @@ This document tracks the development progress of the Monitoring project, compris
 
 ## Next Steps
 
+- **Resolve Session Persistence**: Implement `redux-persist` and Firebase `browserLocalPersistence` for `Frontend: User Dashboard` to maintain login sessions.
 - **Develop Core Backend Services**: Start `monitor-service-data-collection` or `monitor-service-visualization` to expand functionality (20% project weight).
 - **Deploy to GKE**: Create Kubernetes YAML for `monitor-service-user-mgmt` and deploy to cluster.
 - **Enhance Pipelines**: Add deployment and integration test stages to Jenkins pipelines.
@@ -56,6 +57,7 @@ This document tracks the development progress of the Monitoring project, compris
 | Date       | Summary                              |
 |------------|--------------------------------------|
 | 2025-04-28 | Updated progress tracking for 13 components, rounded coefficients to 0.1/0.05, adjusted Live Display and Data Processing. |
+| 2025-05-26 | Updated Frontend: User Dashboard to 40% with basic login, Firebase auth, and backend response; session persistence pending. |
 
 ## References
 
