@@ -18,11 +18,11 @@ This document tracks the development progress of the Monitoring project, compris
 | Frontend: Admin Panel             | 0.1         | 0            | 0.0                   | Not started. |
 | Frontend: Live Display            | 0.05        | 0            | 0.0                   | Not started. |
 | Frontend: Shared Components       | 0.05        | 0            | 0.0                   | Not started. |
-| DevOps: CI/CD (Pipelines)         | 0.1         | 20           | 2.0                   | Stable architecture, needs deployment and testing stages. |
+| DevOps: CI/CD (Pipelines)         | 0.1         | 25           | 2.5                   | Added build pipeline for monitor-frontend-user-dashboard. |
 | Supporting: Notifications & Logging| 0.05        | 0            | 0.0                   | `monitoringbot` partial setup, full service pending. |
 | DevOps: GKE (Infra Config)        | 0.05        | 10           | 0.5                   | MongoDB YAML complete, app deployment YAML pending. |
 
-**Total Progress**: 12.5% (as of May 26, 2025)
+**Total Progress**: 13.0% (as of June 03, 2025)
 
 **Calculation**: Weighted Progress = Coefficient × Progress / 100. Sum all Weighted Progress values.
 
@@ -45,21 +45,10 @@ This document tracks the development progress of the Monitoring project, compris
    - Ensure coefficients sum to 1.0 (100%) to maintain accurate weighting.
    - Adjust coefficients if new components are added (e.g., new microservice).
 
-## Next Steps
-
-- **Resolve Session Persistence**: Implement `redux-persist` and Firebase `browserLocalPersistence` for `Frontend: User Dashboard` to maintain login sessions.
-- **Develop Core Backend Services**: Start `monitor-service-data-collection` or `monitor-service-visualization` to expand functionality (20% project weight).
-- **Deploy to GKE**: Create Kubernetes YAML for `monitor-service-user-mgmt` and deploy to cluster.
-- **Enhance Pipelines**: Add deployment and integration test stages to Jenkins pipelines.
-
 ## Changelog
 
 | Date       | Summary                              |
 |------------|--------------------------------------|
 | 2025-04-28 | Updated progress tracking for 13 components, rounded coefficients to 0.1/0.05, adjusted Live Display and Data Processing. |
 | 2025-05-26 | Updated Frontend: User Dashboard to 40% with basic login, Firebase auth, and backend response; session persistence pending. |
-
-## References
-
-- [Service Repositories Documentation](https://github.com/aelhani/monitor-documentation-arch/blob/master/service-repositories.md)
-- Repositories: `monitor-service-user-mgmt`, `monitor-cicd-common`, `monitor-cicd-pipelines`, `monitor-cicd-infra-config`
+| 2025-06-03 | Added docker image build steps; Added draft build pipeline for monitor-frontend-user-dashboard |
