@@ -38,3 +38,6 @@
   - Copyright (e.g., “© 2025 Monitoring Project”).
   - Contact Link (e.g., “Support” email).
   - Version Number (e.g., “v0.1.0” for MVP).
+
+#### Dashboard Sample
+![Dashboard Sample](/graphics/user-dashboard-sample.png)
