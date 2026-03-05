@@ -1,64 +1,41 @@
-# High-Level Architecture: Monitor Service User Management
+# High-Level Architecture: User Management Service
 
 ## Overview
+`monitor-service-user-mgmt` is the identity entrypoint for the Monitoring System. It is responsible for user login/authentication and account data management, backed by PostgreSQL.
 
-The `monitor-service-user-mgmt` is a Node.js backend service for managing users in the Monitoring project. It authenticates users with Firebase, stores user data in MongoDB, and provides API endpoints for user operations (e.g., signup, get user). The service is written in TypeScript, tested with Jest, and deployable via Docker and Jenkins.
+This document is a high-level companion to:
+- `core-backend/user-mgmt-with-postgre.md`
+- `core-backend/environment-and-database-policy.md`
 
-## Architecture Components
+## Responsibilities
+- Authenticate users through service-owned login endpoints.
+- Manage user account/profile records.
+- Enforce authentication checks for protected operations.
+- Return identity context consumed by frontend dashboard and downstream services.
 
-1. **Express Server (**`src/index.ts`**)**
+## Core Building Blocks
+1. **HTTP/API Layer**
+   - Exposes auth and user endpoints (e.g., login, profile retrieval/update).
 
-   - Acts as the main entry point, starting the web server.
-   - Connects to Firebase for authentication and MongoDB for data storage.
-   - Routes requests to user or auth endpoints (e.g., `/users`, `/auth`).
+2. **Authentication Layer**
+   - Validates credentials and issues/validates auth context tokens or sessions.
 
-2. **User Model (**`src/models/User.ts`**)**
+3. **Domain/Application Layer**
+   - Handles user lifecycle and business rules.
 
-   - Defines user data structure (e.g., `uid`, `email`, `createdAt`) for MongoDB.
-   - Uses Mongoose to ensure data is saved consistently.
+4. **Persistence Layer (PostgreSQL)**
+   - Stores user/account records and supporting auth/session metadata.
 
-3. **Authentication (**`src/middlewares/authMiddleware.ts`**,** `src/auth/index.ts`**)**
+5. **Observability & Error Handling**
+   - Structured logging and explicit error contracts for clients and CI diagnostics.
 
-   - Verifies Firebase tokens to secure user routes (e.g., `/users`).
-   - Ensures only logged-in users access protected endpoints.
+## Request Flow (Simplified)
+1. Frontend submits login credentials to user-mgmt auth endpoint.
+2. Service validates request and verifies credentials.
+3. Service returns auth context and basic user profile information.
+4. Frontend uses auth context for protected dashboard API calls.
 
-4. **API Routes (**`src/routes/authRoutes.ts`**,** `src/users/index.ts`**)**
-
-   - Handles HTTP requests:
-     - `/auth`: Public actions like signup (unprotected).
-     - `/users`: Protected actions like get user data.
-   - Links to controllers for logic.
-
-5. **Controllers (**`src/controllers/authController.ts`**)**
-
-   - Processes requests (e.g., create user, fetch user).
-   - Interacts with Firebase and MongoDB to save or retrieve data.
-
-6. **Types (**`src/types/index.ts`**)**
-
-   - Defines TypeScript types (e.g., `UserProfile`) for code safety.
-
-## Flow Example
-
-- **Signup**: Client sends `POST /auth/signup` with a Firebase token → Express routes to `authRoutes` → Controller verifies token and saves user to MongoDB → Returns “User created.”
-- **Get User**: Client sends `GET /users/uid123` with token → Middleware checks token → Controller fetches user from MongoDB → Returns user data.
-
-## Diagram
-
-```
-Client
-  ↓ (HTTP Requests)
-Express (index.ts)
-  ↓ (Auth)          ↓ (User Data)
-Firebase           Routes (authRoutes, userRoutes)
-                    ↓
-                   Middleware (authMiddleware)
-                    ↓
-                   Controller (authController)
-                    ↓
-                   Mongoose (User.ts)
-                    ↓
-                   MongoDB
-Jest: Tests code
-Docker/Jenkins: Deploys
-```
+## Deployment & Runtime Notes
+- Environment-driven configuration (DB URI, secrets, ports).
+- CI/CD pipeline controls build/test/deploy flow.
+- Service should expose health/readiness endpoints for deployment automation.
