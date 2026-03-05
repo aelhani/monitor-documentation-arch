@@ -1,137 +1,43 @@
-Based on your progress doc, the project is organized into **11 components** (DB, 4 backend, 4 frontend, 2 DevOps) ([GitHub][1]), and you previously had **MongoDB deployed to k8s** and **user-mgmt connecting locally** (not yet deployed) ([GitHub][1]) plus a **draft CI/CD pipeline for the user dashboard frontend** ([GitHub][1]).
+# Sprint 00 — Architecture Alignment Sprint
 
-Your new sprint goal is crystal clear:
+## Sprint Goal
+Establish a consistent baseline across backend, frontend, database, and CI/CD so that the project can deliver a stable authenticated KPI dashboard flow.
 
-> **One real reading travels device → DB → rule engine → dashboard → action** (once).
-> If that loop works once, the project is real.
+## Priority Outcomes
 
-Here are the **top developments (highest impact) for the coming sprint**, optimized for **Kubernetes + CI/CD training** and an MVP “full loop”.
+### 1) Authentication Baseline (User Management)
+**Definition of Done**
+- Login/auth endpoints documented and validated in user-mgmt architecture docs.
+- Frontend login flow mapped to backend auth behavior.
+- Auth prerequisites and environment settings are explicit.
 
----
+### 2) PostgreSQL Baseline
+**Definition of Done**
+- MongoDB references removed from active architecture docs.
+- PostgreSQL documented as system-of-record in backend and high-level docs.
+- Environment policy and DB strategy references are consistent.
 
-## Sprint Top Developments (in priority order)
+### 3) Dashboard Baseline
+**Definition of Done**
+- Domain-oriented dashboard model documented (global + energy/water/air/recycling/emissions).
+- Business-logic and layout references aligned with source-of-truth frontend documents.
+- Dependencies on auth and backend data contracts identified.
 
-### 1) Define the “One Sensor Loop” contract (1 device, 1 metric, 1 rule, 1 action)
+### 4) CI/CD Baseline
+**Definition of Done**
+- Jenkins folder/common-loader/pipeline workflow references aligned.
+- Role of optional GitHub Actions clarified as supplementary checks.
+- Service-repository CI/CD expectations documented.
 
-**Pick one path only** to avoid scope explosion:
+### 5) Documentation Cohesion
+**Definition of Done**
+- Outdated architecture articles rewritten to reflect current technology choices.
+- Navigation/index and onboarding-oriented architecture docs added.
+- Progress tracking updated to current realistic percentages and priorities.
 
-* Example: `CO2` reading every 10s from *one* test device (even if it’s simulated first, then real device later)
+## Risks
+- Drift between implementation and docs if updates are not tied to delivery workflows.
+- Inconsistent naming across services/repos can reduce onboarding clarity.
 
-**Deliverable (DoD):**
-
-* A single JSON payload format that every component uses end-to-end:
-
-  * `deviceId, metric, value, timestamp`
-* A single threshold rule: `value > X for Y seconds`
-
-Why this is high impact: it prevents every team/component from inventing its own format, which is the #1 reason monitoring projects stall.
-
----
-
-### 2) PostgreSQL foundation (schema + migrations + connectivity in k8s)
-
-You decided Postgres: good. Now make it “real” in k8s.
-
-**Deliverable (DoD):**
-
-* Postgres runs in Kubernetes (PVC + service)
-* User-mgmt connects to Postgres using env vars + a health endpoint
-* Migrations run in pipeline (or as a k8s Job) so DB is always consistent
-
-This replaces the “MongoDB pod deployed” status you had before ([GitHub][1]) with a durable Postgres base.
-
----
-
-### 3) Minimal “Device ingestion” service (or endpoint) that writes measurements
-
-This is the beginning of your data-centric system (your doc said Data Collection not started ([GitHub][1])).
-
-**Deliverable (DoD):**
-
-* One endpoint: `POST /ingest`
-* It validates the payload and writes a row into `measurements`
-* It returns 200 fast (don’t block on rules yet)
-
-Why: without ingestion → nothing else matters.
-
----
-
-### 4) Minimal Rule Engine (consume latest measurements and emit “events”)
-
-Don’t build a full rules platform yet. Just prove the loop.
-
-**Deliverable (DoD):**
-
-* A worker (can be a simple service) that:
-
-  * reads latest measurements (polling is fine for MVP)
-  * checks one threshold rule
-  * writes an `alerts` row when triggered
-
-Why: You prove “DB → decisions”.
-
----
-
-### 5) Dashboard “Visible proof” (one screen that shows the live value + alert)
-
-Your progress doc mentions basic Firebase login + backend response was done ([GitHub][1]). Great—use that as the entry gate.
-
-**Deliverable (DoD):**
-
-* After login, dashboard shows:
-
-  * latest CO2 value (updates)
-  * last alert status (“OK / ALERT”)
-* Update mechanism can be:
-
-  * polling every 2–5 seconds (MVP)
-  * later replace with WebSocket/SSE
-
-Why: visible proof makes the system feel real immediately.
-
----
-
-### 6) “Action” (one real side-effect when alert triggers)
-
-Keep it simple but real:
-
-* send a webhook
-* write a “command” row
-* call a dummy HVAC/GTC endpoint
-* or trigger a notification (email/telegram later)
-
-**Deliverable (DoD):**
-
-* When alert is created, one action happens and is logged (“action_executions” table)
-* You can show it on dashboard (“Last action executed at…”)
-
-Why: this closes the loop and validates your future GTC integration story.
-
----
-
-### 7) CI/CD + Kubernetes: make the loop reproducible
-
-Your doc already tracks CI/CD pipelines work ([GitHub][1])—now raise the bar:
-
-**Deliverable (DoD):**
-
-* For each involved component (ingestion, rule-engine, dashboard, db migration):
-
-  * pipeline builds image
-  * pushes to registry
-  * deploys to your k8s cluster (dev namespace)
-* “One button” outcome: commit → pipeline → running system
-
-Why: this is your DevOps training goal, and it’s the multiplier for every future feature.
-
----
-
-## The sprint outcome you want to demo (single sentence)
-
-“From a real device (or simulator), I can see CO2 changing live; when it crosses threshold, an alert appears and an action is executed — all deployed via CI/CD to Kubernetes.”
-
----
-
-If you want, I’ll turn the above into a **Sprint Backlog** with 8–12 Trello cards, each with a clear Definition of Done, matching your domains (backend / data / devops / frontend) and your new Postgres direction.
-
-[1]: https://raw.githubusercontent.com/aelhani/monitor-documentation-arch/master/_progress-tracking.md "raw.githubusercontent.com"
+## Exit Criteria
+- New contributors can understand: service boundaries, data flow, auth path, and CI/CD path from documentation alone.
