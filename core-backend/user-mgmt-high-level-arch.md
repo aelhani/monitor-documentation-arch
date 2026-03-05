@@ -1,64 +1,29 @@
-# High-Level Architecture: Monitor Service User Management
+# User Management High-Level Architecture
 
-## Overview
+## Scope
 
-The `monitor-service-user-mgmt` is a Node.js backend service for managing users in the Monitoring project. It authenticates users with Firebase, stores user data in MongoDB, and provides API endpoints for user operations (e.g., signup, get user). The service is written in TypeScript, tested with Jest, and deployable via Docker and Jenkins.
+`monitor-service-user-mgmt` is responsible for identity and access entry points used by the Monitoring System frontend and internal services.
 
-## Architecture Components
+## Responsibilities
 
-1. **Express Server (**`src/index.ts`**)**
+- User authentication (login flow)
+- User profile retrieval/update
+- Identity persistence in PostgreSQL
+- Exposure of APIs consumed by frontend login and protected dashboard routes
 
-   - Acts as the main entry point, starting the web server.
-   - Connects to Firebase for authentication and MongoDB for data storage.
-   - Routes requests to user or auth endpoints (e.g., `/users`, `/auth`).
+## Integration Points
 
-2. **User Model (**`src/models/User.ts`**)**
+- **Frontend**: calls authentication and user profile endpoints.
+- **PostgreSQL**: stores user credentials/metadata according to current DB policy.
+- **CI/CD**: built and deployed through Jenkins multibranch pipelines.
 
-   - Defines user data structure (e.g., `uid`, `email`, `createdAt`) for MongoDB.
-   - Uses Mongoose to ensure data is saved consistently.
+## Design Constraints
 
-3. **Authentication (**`src/middlewares/authMiddleware.ts`**,** `src/auth/index.ts`**)**
+- Keep auth logic centralized in user management service.
+- Avoid duplicating credential logic in other domain services.
+- Ensure environment-based configuration and secret isolation.
 
-   - Verifies Firebase tokens to secure user routes (e.g., `/users`).
-   - Ensures only logged-in users access protected endpoints.
+## Related Canonical Docs
 
-4. **API Routes (**`src/routes/authRoutes.ts`**,** `src/users/index.ts`**)**
-
-   - Handles HTTP requests:
-     - `/auth`: Public actions like signup (unprotected).
-     - `/users`: Protected actions like get user data.
-   - Links to controllers for logic.
-
-5. **Controllers (**`src/controllers/authController.ts`**)**
-
-   - Processes requests (e.g., create user, fetch user).
-   - Interacts with Firebase and MongoDB to save or retrieve data.
-
-6. **Types (**`src/types/index.ts`**)**
-
-   - Defines TypeScript types (e.g., `UserProfile`) for code safety.
-
-## Flow Example
-
-- **Signup**: Client sends `POST /auth/signup` with a Firebase token → Express routes to `authRoutes` → Controller verifies token and saves user to MongoDB → Returns “User created.”
-- **Get User**: Client sends `GET /users/uid123` with token → Middleware checks token → Controller fetches user from MongoDB → Returns user data.
-
-## Diagram
-
-```
-Client
-  ↓ (HTTP Requests)
-Express (index.ts)
-  ↓ (Auth)          ↓ (User Data)
-Firebase           Routes (authRoutes, userRoutes)
-                    ↓
-                   Middleware (authMiddleware)
-                    ↓
-                   Controller (authController)
-                    ↓
-                   Mongoose (User.ts)
-                    ↓
-                   MongoDB
-Jest: Tests code
-Docker/Jenkins: Deploys
-```
+- `core-backend/user-mgmt-with-postgre.md`
+- `core-backend/environment-and-database-policy.md`

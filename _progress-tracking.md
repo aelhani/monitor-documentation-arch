@@ -1,31 +1,44 @@
-# Monitoring Project Progress Tracking
+# Monitoring System — Progress Tracking
 
-## Overview
+## Progress Model
 
-This document tracks the development progress of the Monitoring project, comprising 11 components: 1 Database, 4 core backend services, 4 frontend applications, and 2 DevOps components for CI/CD and INFRA. Each component has a coefficient (weight) reflecting its contribution to the total project. Progress is updated periodically to reflect completion percentages.
+This tracker uses weighted workstreams instead of component placeholders to better reflect current architecture maturity.
 
-## Progress Table
+| Workstream | Weight | Status (%) | Weighted Progress | Notes |
+|---|---:|---:|---:|---|
+| Architecture baseline and service boundaries | 0.15 | 85 | 12.75 | High-level architecture, boundaries, responsibilities, and data-flow docs aligned. |
+| Backend foundations (PostgreSQL + environment policy) | 0.20 | 80 | 16.00 | PostgreSQL strategy and backend environment policy are established in source-of-truth docs. |
+| User management and authentication | 0.15 | 75 | 11.25 | Login/authentication flow implemented and documented; future role granularity remains. |
+| Frontend dashboard and business logic | 0.20 | 70 | 14.00 | Global overview and domain-centric structure documented; iterative UI expansion ongoing. |
+| CI/CD architecture and deployment workflows | 0.20 | 78 | 15.60 | Jenkins shared-loader model and multibranch flow are documented and reusable. |
+| Documentation quality and repository coherence | 0.10 | 90 | 9.00 | Repository structure and cross-document consistency significantly improved. |
 
-| Component                          | Coefficient | Progress (%) | Weighted Progress (%) | Notes |
-|------------------------------------|-------------|--------------|-----------------------|-------|
-| Database: MongoDB                  | 0.1         | 30           | 3.0                   | MongoDB pod deployed, local connection tested. |
-| Core Backend: User Management      | 0.1         | 30           | 3.0                   | `monitor-service-user-mgmt` connects to MongoDB locally, not yet deployed to Kubernetes. |
-| Core Backend: Data Collection      | 0.1         | 0            | 0.0                   | Not started. |
-| Core Backend: Data Processing      | 0.1         | 0            | 0.0                   | Not started. |
-| Core Backend: Alerts & Logging     | 0.1         | 1            | 0.1                   | `monitoringbot` partial setup, full service pending. |
-| Frontend: User Dashboard           | 0.1         | 40           | 4.0                   | Implemented basic login with Firebase auth and backend response; session persistence pending. |
-| Frontend: Admin Panel              | 0.1         | 0            | 0.0                   | Not started. |
-| Frontend: Live Display             | 0.1         | 0            | 0.0                   | Not started. |
-| Frontend: Shared Components        | 0.05        | 0            | 0.0                   | Not started. |
-| DevOps: CI/CD (Pipelines)          | 0.1         | 25           | 2.5                   | Added build pipeline for monitor-frontend-user-dashboard. |
-| DevOps: GKE (Infra Config)         | 0.05        | 10           | 0.5                   | MongoDB YAML complete, app deployment YAML pending. |
+**Total weighted progress: 78.6%**
 
-**Total Progress**: 13.1% (as of June 12, 2025)
+## What Is Completed
 
-## Changelog
+- Canonical documentation for frontend, backend, and CI/CD architecture established.
+- PostgreSQL migration reflected as baseline architecture direction.
+- User authentication/login represented as active implemented capability.
+- CI/CD pipeline architecture standardized around Jenkins + shared loader.
+- High-level architectural map and supporting documents refreshed.
 
-| Date       | Summary                              |
-|------------|--------------------------------------|
-| 2025-04-28 | Updated progress tracking for 11 components, rounded coefficients to 0.1/0.05, adjusted Live Display and Data Processing. |
-| 2025-05-26 | Updated Frontend: User Dashboard to 40% with basic login, Firebase auth, and backend response; session persistence pending. |
-| 2025-06-03 | Added docker image build steps; Added draft build pipeline for monitor-frontend-user-dashboard |
+## Current Focus Areas
+
+1. Finalize role/permission model beyond basic authenticated access.
+2. Expand backend KPI service contracts and domain-level data semantics.
+3. Strengthen observability and runbook-level operations documentation.
+
+## Upcoming Priorities
+
+1. Add environment-specific deployment guide (dev/staging/prod).
+2. Formalize microservice API contracts and versioning policy.
+3. Add architecture decision records (ADRs) for major platform choices.
+4. Add disaster recovery and operational incident response documentation.
+
+## Change Log
+
+| Date | Change |
+|---|---|
+| 2026-03-05 | Rebuilt progress model around current architecture workstreams and updated weighted status to 78.6%. |
+| 2026-03-05 | Added completed/current/upcoming sections for clearer planning and tracking. |
