@@ -1,37 +1,41 @@
 # Data Flow Between Components
 
 ## Scope
-End-to-end data flow across ingestion, processing, alerting, and dashboard consumption, aligned with current architecture (PostgreSQL + user-mgmt authentication).
+Canonical end-to-end component flow across authentication, ingestion, processing, alerting, and dashboard consumption.
 
 ## Components
-- **Data sources**: Sensors/external systems producing KPI readings.
-- **Data Collection Service**: Receives and validates measurements.
-- **PostgreSQL**: Persists raw and processed KPI data plus alert records.
-- **Data Processing Service**: Builds derived/aggregated KPI datasets.
-- **Alerts & Logging Service**: Applies rules and writes alerts/events.
-- **User Management Service**: Auth/login provider.
-- **User Dashboard Frontend**: Authenticated KPI visualization.
+- Data sources
+- Data Collection Service
+- PostgreSQL
+- Data Processing Service
+- Alerts & Logging Service
+- User Management Service
+- User Dashboard Frontend
 
 ## Flow A — Authentication
-1. User submits credentials via dashboard login form.
-2. Frontend calls user-mgmt authentication endpoint.
+1. User submits credentials via dashboard login.
+2. Frontend calls user-mgmt auth endpoint.
 3. User-mgmt validates credentials and returns auth context.
-4. Frontend stores auth context and calls protected KPI endpoints.
+4. Frontend uses auth context for protected KPI APIs.
 
 ## Flow B — KPI Ingestion to Dashboard
-1. Sensor/source sends KPI payload to data-collection endpoint.
-2. Data-collection validates and persists normalized records in PostgreSQL.
-3. Data-processing computes aggregated views (time windows/domain rollups).
-4. Alerts service evaluates threshold rules and stores alert events.
-5. Dashboard fetches latest KPI summaries and alert states for display.
+1. Sensor/source sends KPI payload to data-collection.
+2. Data-collection validates and stores normalized records in PostgreSQL.
+3. Data-processing computes aggregations/rollups.
+4. Alerts service evaluates rules and stores alert events.
+5. Dashboard fetches KPI summaries and alert state.
 
 ## Flow C — Domain Drill-Down
-1. User selects domain (energy/water/air quality/recycling/emissions).
-2. Frontend calls domain-specific metrics endpoints.
-3. Backend returns filtered historical and summary datasets.
-4. Frontend renders charts/widgets and refreshes periodically.
+1. User selects KPI domain.
+2. Frontend calls domain metrics APIs.
+3. Backend returns historical/summary datasets.
+4. Frontend renders charts/widgets and refreshes.
 
-## Data Contract Guidance
-- Standard timestamp format and timezone policy across services.
-- Consistent domain naming for KPI categories.
-- Stable API response schema for dashboard components.
+## Contract Conventions
+- Standard timestamp and timezone policy.
+- Stable domain naming vocabulary.
+- Consistent API response schema for dashboard consumption.
+
+## Related Docs
+- Context-level architecture map: `high-level/system-context-and-data-flow.md`
+- Service ownership matrix: `high-level/service-responsability.md`

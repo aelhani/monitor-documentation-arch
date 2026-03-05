@@ -1,24 +1,9 @@
 # Monitoring System — High-Level Architecture
 
 ## Purpose
-This document provides a concise architecture map of the Monitoring System and aligns with the current implementation direction:
-- PostgreSQL as the operational database.
-- Dedicated user management service with login/authentication flows.
-- User dashboard as the main product surface.
-- Jenkins-based CI/CD with reusable pipeline loaders.
+This document is the architectural entry point. It defines scope and layers, then links to canonical deep-dive docs to avoid duplicated content.
 
-Reference documents for implementation details:
-- `frontend/business-logic-and-ui-layout.md`
-- `frontend/user-dashboard-layout.md`
-- `core-backend/environment-and-database-policy.md`
-- `core-backend/user-mgmt-with-postgre.md`
-- `cicd-infra/jenkins-folders.md`
-- `cicd-infra/cicd-common-loader-arch.md`
-- `cicd-infra/jenkins-pipelines-workflow.md`
-
----
-
-## System Context
+## System Scope
 The platform monitors environmental and operational KPIs across compounds/spaces:
 - Air quality
 - Energy
@@ -26,39 +11,44 @@ The platform monitors environmental and operational KPIs across compounds/spaces
 - Recycling
 - Emissions
 
-Primary users authenticate, access dashboard views, and inspect KPI trends, alerts, and drill-down data.
-
----
-
 ## Logical Architecture Layers
+1. **Edge & Ingestion**
+   - Sensor devices and external data providers emit KPI readings.
+   - Ingestion APIs normalize and validate payloads.
 
-### 1) Edge & Ingestion Layer
-- Sensor devices and external data providers push KPI readings.
-- Ingestion APIs normalize payloads and apply basic validation.
+2. **Core Services**
+   - User Management
+   - Data Collection
+   - Data Processing
+   - Alerts & Logging
 
-### 2) Core Services Layer
-- **User Management Service**: Authentication, profile, role/account APIs.
-- **Data Collection Service**: Accepts and stores measurements/events.
-- **Data Processing Service**: Aggregates/derives metrics for dashboard consumption.
-- **Alerts & Logging Service**: Generates and records alert events.
+3. **Persistence**
+   - PostgreSQL is the system-of-record for operational and user/account data.
 
-### 3) Persistence Layer
-- **PostgreSQL** is the system-of-record for user and operational data.
-- Clear table ownership per service domain is preferred, with explicit contracts for shared reads.
+4. **Experience**
+   - User Dashboard frontend for global and domain KPI views.
 
-### 4) Experience Layer
-- **User Dashboard Frontend** for KPI monitoring, global overview, and domain pages.
-- Login flow integrated with backend authentication.
+5. **Delivery**
+   - Jenkins multibranch CI/CD with shared loader/pipeline architecture.
 
-### 5) Delivery Layer
-- Jenkins multibranch pipelines trigger build/test/deploy flows.
-- Shared CI/CD loader architecture keeps service pipelines consistent.
+## Canonical Deep Dives
+- Service ownership matrix: `high-level/service-responsability.md`
+- System context and interaction map: `high-level/system-context-and-data-flow.md`
+- Detailed component data flow: `core-backend/data-flow-between-components.md`
+- Security and authentication: `high-level/security-and-authentication-architecture.md`
+- Observability and monitoring: `high-level/observability-and-monitoring-strategy.md`
+- Source-of-truth implementation documents:
+  - `frontend/business-logic-and-ui-layout.md`
+  - `frontend/user-dashboard-layout.md`
+  - `core-backend/environment-and-database-policy.md`
+  - `core-backend/user-mgmt-with-postgre.md`
+  - `cicd-infra/jenkins-folders.md`
+  - `cicd-infra/cicd-common-loader-arch.md`
+  - `cicd-infra/jenkins-pipelines-workflow.md`
 
----
-
-## Architectural Principles
-- Service boundaries first: each service owns a clear business capability.
+## Architecture Principles
+- Single ownership per business capability.
 - PostgreSQL-first persistence strategy.
 - API contracts over direct cross-service DB coupling.
-- CI/CD as a mandatory path to environment changes.
-- Documentation updated with architecture decisions as part of delivery.
+- CI/CD as the standard path to environment changes.
+- Keep docs concise and cross-linked rather than duplicated.

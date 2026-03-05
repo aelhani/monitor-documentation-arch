@@ -1,62 +1,32 @@
 # Service Boundaries
 
 ## Why this document
-Clear service boundaries prevent coupling and keep ownership, releases, and troubleshooting manageable.
+This article defines service boundaries at a policy level. For day-to-day ownership details and interfaces, use the canonical matrix in `high-level/service-responsability.md`.
 
-## Bounded Services
+## Boundary Definitions
 
-### 1) User Management Service
-**Owns**
-- User identity records
-- Login/authentication flows
-- Profile/account management primitives
+### User Management Service
+- Owns identity/authentication and account/profile lifecycle.
+- Does not own KPI measurement or analytics data.
 
-**Does not own**
-- KPI measurements
-- Domain analytics
+### Data Collection Service
+- Owns ingestion endpoints, payload validation, and initial measurement persistence.
+- Does not own analytics transformations or user identity lifecycle.
 
-**Primary consumers**
-- User dashboard frontend
-- Other services requiring identity validation
+### Data Processing Service
+- Owns KPI aggregations/derivations and summary output contracts.
+- Does not own login/session management.
 
----
-
-### 2) Data Collection Service
-**Owns**
-- Ingestion endpoints for sensor/source payloads
-- Input validation and canonicalization
-- Initial persistence of raw/normalized KPI records
-
-**Does not own**
-- Complex business analytics transformations
-- User identity lifecycle
-
----
-
-### 3) Data Processing Service
-**Owns**
-- KPI aggregation/derivation logic
-- Time-windowed summaries consumed by dashboard views
-
-**Does not own**
-- Login/session logic
-- Frontend presentation concerns
-
----
-
-### 4) Alerts & Logging Service
-**Owns**
-- Threshold/rule-based alert generation
-- Alert lifecycle/status and auditable logs
-
-**Does not own**
-- Raw ingestion validation
-- User profile authority
-
----
+### Alerts & Logging Service
+- Owns threshold/rule evaluation and alert/event history.
+- Does not own raw ingestion validation or profile authority.
 
 ## Boundary Rules
-1. Each service owns its core tables/domain model in PostgreSQL.
-2. Cross-service communication is API/event driven, not via direct writes to another service's tables.
-3. Service contracts (inputs/outputs/errors) are versioned and documented.
-4. Frontend consumes public service APIs, never direct DB connections.
+1. Each service owns its core domain tables in PostgreSQL.
+2. Cross-service interaction is API/event based, never direct writes to another service’s owned tables.
+3. Service contracts must be versioned and documented.
+4. Frontend consumes service APIs only (no direct database access).
+
+## Related Canonical Docs
+- `high-level/service-responsability.md`
+- `core-backend/data-flow-between-components.md`

@@ -1,5 +1,14 @@
 # Monitoring System Documentation Index
 
+## Canonical Ownership (to avoid duplication)
+- **System scope and layers**: `high-level/high-level-architecture.md`
+- **Service ownership matrix**: `high-level/service-responsability.md`
+- **End-to-end component data flow**: `core-backend/data-flow-between-components.md`
+- **Security/auth model**: `high-level/security-and-authentication-architecture.md`
+- **Observability model**: `high-level/observability-and-monitoring-strategy.md`
+
+> Other articles should summarize and link to these canonical docs instead of duplicating full sections.
+
 ## 1. Start Here (Source of Truth)
 - Frontend
   - `frontend/business-logic-and-ui-layout.md`

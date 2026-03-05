@@ -9,13 +9,11 @@ Monitoring System integrates building/compound KPI streams and provides authenti
 - Authenticated end users (dashboard)
 - CI/CD operators and maintainers
 
-## High-Level Data Flow
+## Interaction Map (Context Level)
 1. Sources emit KPI measurements.
-2. Data Collection service validates and stores records in PostgreSQL.
-3. Data Processing service computes aggregates/trends.
-4. Alerts service evaluates thresholds and stores incidents.
-5. Dashboard requests current and historical KPI views.
-6. User Management service gates access via login/auth context.
+2. Platform backend ingests, stores, processes, and evaluates KPI data.
+3. Dashboard retrieves current and historical KPI views for authenticated users.
+4. CI/CD maintains repeatable build/test/deploy workflows.
 
 ## Data Domains
 - Energy
@@ -28,3 +26,7 @@ Monitoring System integrates building/compound KPI streams and provides authenti
 - Consistent timestamp semantics.
 - Environment-specific configuration isolation.
 - API-contract stability for frontend consumption.
+
+## Detailed Flow Reference
+For service-by-service and step-by-step runtime flows, see:
+- `core-backend/data-flow-between-components.md`
