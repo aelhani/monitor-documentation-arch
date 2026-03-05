@@ -26,7 +26,10 @@ The platform monitors environmental and operational KPIs across compounds/spaces
    - PostgreSQL is the system-of-record for operational and user/account data.
 
 4. **Experience**
-   - User Dashboard frontend for global and domain KPI views.
+   - `monitor-dashboard`: User-facing dashboards for global and domain KPI views.
+   - `monitor-admin-panel`: Admin-facing user/threshold/settings management.
+   - `monitor-live-display`: Auto-refreshing public/operations live display.
+   - `monitor-ui-components` (shared): Common React UI elements across frontend apps.
 
 5. **Delivery**
    - Jenkins multibranch CI/CD with shared loader/pipeline architecture.

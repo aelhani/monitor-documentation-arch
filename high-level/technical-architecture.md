@@ -6,9 +6,39 @@ This document describes the current technical architecture baseline and replaces
 ## Technology Baseline
 
 ### Frontend
-- React-based dashboard application.
-- Domain-oriented UI: global overview + KPI domain pages (energy, water, air quality, recycling, emissions).
-- Login and authenticated navigation integrated with backend user management APIs.
+- React-based frontend ecosystem composed of multiple purpose-specific applications.
+- Domain-oriented UX coverage: user dashboards, administration workflows, and public live displays.
+- Login and authenticated navigation integrated with backend user management APIs where applicable.
+
+## Frontend Architecture
+
+The Monitoring System frontend layer is implemented as a set of React applications rather than a single UI. Each repository addresses a specific user context while sharing architecture principles (API-first integration, reusable UI patterns, and environment-based configuration).
+
+### 1) `monitor-dashboard`
+- Primary user-facing interface for viewing air quality data, reports, and alerts.
+- Provides dashboard experiences with charts and map-based visualizations.
+- Consumes backend services through REST APIs for KPI data, alert states, and reporting views.
+
+### 2) `monitor-admin-panel`
+- Administrative interface for managing users, alert thresholds, and system-level settings.
+- Exposes CRUD-oriented workflows for platform administrators.
+- Integrates with `monitor-service-user-mgmt` for identity and account-management operations.
+
+### 3) `monitor-live-display`
+- Real-time, large-screen frontend intended for public or operations-room display.
+- Continuously refreshes to show live air quality/emissions indicators.
+- Optimized for readability, minimal interaction, and high-visibility layouts.
+
+### 4) `monitor-ui-components` (shared library, optional but recommended)
+- Shared React component repository used across frontend applications.
+- Hosts reusable UI elements (for example buttons, charts, and layout primitives).
+- Reduces duplication and improves visual/interaction consistency between frontend projects.
+
+### Frontend-to-Backend Interaction Model
+- Frontend applications communicate with backend microservices via REST APIs.
+- Authentication and user context are provided by user-management services and consumed by UIs that require secured access.
+- Data dashboards and live displays consume processed environmental metrics from data collection/processing services.
+- Administrative actions (user/threshold/settings changes) flow through dedicated backend service endpoints for validation and persistence.
 
 ### Backend
 - Microservices architecture centered on:
