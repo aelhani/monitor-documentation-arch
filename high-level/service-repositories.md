@@ -22,8 +22,18 @@ This document maps repository roles for the Monitoring System and aligns naming 
   - Alert generation and audit/event tracking.
 
 ### Frontend
-- `monitor-frontend-user-dashboard`
-  - Dashboard UX and business-logic-driven KPI pages.
+- `monitor-dashboard`
+  - Main user-facing interface for air quality dashboards, reports, and alerts.
+  - React application consuming backend REST APIs for KPI and alert/reporting data.
+- `monitor-admin-panel`
+  - Administrative UI for user, threshold, and configuration management workflows.
+  - React CRUD interface integrated with `monitor-service-user-mgmt`.
+- `monitor-live-display`
+  - Real-time large-screen/public display for auto-refreshing environmental indicators.
+  - React UI optimized for readability and at-a-glance monitoring.
+- `monitor-ui-components` (optional shared library)
+  - Reusable React components (e.g., buttons, charts, layout primitives).
+  - Shared by frontend apps to reduce duplication and enforce consistency.
 
 ### CI/CD and Infrastructure
 - `monitor-cicd-common`
