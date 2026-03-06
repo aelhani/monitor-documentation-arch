@@ -1,0 +1,5 @@
+[
+  { "id": "s-1", "value": 30, "thresholdWarning": 70, "thresholdCritical": 90 },
+  { "id": "s-2", "value": 74, "thresholdWarning": 70, "thresholdCritical": 90 },
+  { "id": "s-3", "value": 78, "thresholdWarning": 70, "thresholdCritical": 90 }
+]

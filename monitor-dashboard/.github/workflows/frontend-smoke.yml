@@ -1,0 +1,27 @@
+name: frontend-smoke
+
+on:
+  pull_request:
+    paths:
+      - 'monitor-dashboard/**'
+  push:
+    branches: [ main ]
+    paths:
+      - 'monitor-dashboard/**'
+
+jobs:
+  smoke-and-unit:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: monitor-dashboard
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: monitor-dashboard/package.json
+      - run: npm ci
+      - run: npm run test:smoke
+      - run: npm test
