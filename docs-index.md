@@ -42,6 +42,7 @@
 ## 5. Project Management
 - `_progress-tracking.md`
 - `sprints/sprint-00.md`
+- `sprints/cto-execution-roadmap.md`
 
 ## 6. Reading Paths
 - **Onboarding path**: 1 -> 2 -> 3 -> 5
