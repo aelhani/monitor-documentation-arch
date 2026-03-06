@@ -42,6 +42,10 @@
 ## 5. Project Management
 - `_progress-tracking.md`
 - `sprints/sprint-00.md`
+- `sprints/sprint-01-cto-roadmap.md`
+- `sprints/sprint-02-cto-roadmap.md`
+- `sprints/sprint-03-cto-roadmap.md`
+- `sprints/sprint-04-standards-driven-environmental-intelligence.md`
 
 ## 6. Reading Paths
 - **Onboarding path**: 1 -> 2 -> 3 -> 5
