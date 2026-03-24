@@ -3,7 +3,7 @@
 ## Snapshot (Current)
 This tracker reflects the architecture baseline after alignment to PostgreSQL, backend-owned authentication, dashboard UX progress, and Jenkins-centered CI/CD.
 
-_Last updated: 2026-03-05_
+_Last updated: 2026-03-24_
 
 ## Progress by Workstream
 
@@ -32,14 +32,17 @@ Calculation method: simple average across 12 workstreams in this tracker.
 2. Deliver PostgreSQL-backed user/auth paths end-to-end.
 3. Stabilize CI/CD service templates and deployment flow.
 4. Keep documentation synchronized with implementation changes.
+5. Prepare Air Quality (GRI 305) delivery contracts before implementation starts.
 
 ## Upcoming Priorities
 1. Start Data Collection service with minimal ingestion contract.
 2. Introduce Data Processing baseline for dashboard aggregates.
 3. Implement Alerts & Logging baseline with first threshold rule.
 4. Extend observability and security controls in running environments.
+5. Execute Air Quality roadmap in 3 sprints (Foundation → Domain UX → Exports/Readiness).
 
 ## Change Log
 | Date | Change |
 |---|---|
+| 2026-03-24 | Added Air Quality GRI (305) three-phase sprint roadmap and aligned focus/priority bullets. |
 | 2026-03-05 | Reworked progress model, removed obsolete MongoDB/Firebase-oriented status, added explicit current focus and next priorities. |
