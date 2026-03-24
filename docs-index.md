@@ -46,6 +46,9 @@
 - `sprints/sprint-02-cto-roadmap.md`
 - `sprints/sprint-03-cto-roadmap.md`
 - `sprints/sprint-04-standards-driven-environmental-intelligence.md`
+- `sprints/sprint-05-air-quality-gri-foundation.md`
+- `sprints/sprint-06-air-quality-domain-experience.md`
+- `sprints/sprint-07-air-quality-exports-realtime-readiness.md`
 
 ## 6. Reading Paths
 - **Onboarding path**: 1 -> 2 -> 3 -> 5

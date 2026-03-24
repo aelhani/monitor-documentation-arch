@@ -92,6 +92,44 @@ The UI should be intuitive, visually clear, and capable of handling real-time da
 
 ---
 
+
+
+### Air Quality Reporting Layer (GRI 305) — Domain-Specific Specification Mapping
+
+To support a compliance-ready Air Quality page, the product logic for this domain is refined as follows:
+
+- **Primary KPIs (top row)**
+  - Total CO₂e Emissions (tCO₂e)
+  - Emissions Intensity (tCO₂e/m² and tCO₂e/person)
+  - Trend vs previous period (%)
+  - Contribution of Air Quality to global Bilan carbone (%)
+
+- **Mandatory breakdowns**
+  - By source (HVAC, equipment, generators, configurable others)
+  - By location hierarchy (site → building → zone)
+  - By time (monthly, yearly)
+
+- **Transparency requirements visible in UI**
+  - Data source attribution (sensor, estimated, external factor)
+  - Coverage indicator (% measured vs % estimated)
+  - Methodology and assumptions
+  - Boundary definition (included/excluded sources)
+
+- **Export obligations**
+  - PDF/CSV/JSON outputs must include period, metrics, breakdowns, methodology, and boundaries.
+
+- **Configurability**
+  - Metric enable/disable by organization capability and scope
+  - Versioned organization-specific emission factors
+  - Configurable source taxonomy and location hierarchy
+
+This domain specification is split into three delivery phases documented in:
+- `sprints/sprint-05-air-quality-gri-foundation.md`
+- `sprints/sprint-06-air-quality-domain-experience.md`
+- `sprints/sprint-07-air-quality-exports-realtime-readiness.md`
+
+---
+
 ### Summary
 The User Dashboard will feature:
 - A **Login Page** for secure access.
